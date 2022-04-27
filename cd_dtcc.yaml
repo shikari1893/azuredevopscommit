@@ -1,0 +1,167 @@
+trigger:
+  branches:
+    include:
+    - develop
+    - release/*
+
+variables:
+  - group: test
+
+  - name: full_version
+    value: $(MajorVersion).$(MinorVersion).$(PatchVersion)
+
+  - name: MajorVersion
+    value: 1
+
+  - name: MinorVersion
+    value: 0
+
+  - name: PatchVersion
+    value: 0
+
+  - name: version_revision
+    value: $[ counter(format('{0}.{1}.{2}',variables['MajorVersion'],variables['MinorVersion'],variables['PatchVersion']),1) ]
+
+  - name: versionNumber
+    value: $(full_version).$(version_revision)
+
+stages:
+
+- stage: SET_VERSION
+  displayName: Set build version
+  pool:
+    vmImage: ubuntu-latest
+  jobs:
+
+  #- job: A
+  #  steps:
+  #    - script: echo hello
+
+  - job: SET_PM_VERSION
+    displayName: Set QA version
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+    #condition: and(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.SourceBranch'], 'refs/heads/develop'))
+    steps:
+      - script: echo '##vso[build.updatebuildnumber]'$(versionNumber)
+        displayName: PM.$(versionNumber)
+
+- stage: CDPM
+  displayName: Update Code and Config on PM
+  jobs:
+  - deployment: VMDeploy
+    displayName: Update Config and Update Code on Puppet Master
+    pool:
+      vmImage: ubuntu-latest
+    environment:
+      name: QA
+      resourceType: VirtualMachine
+      tags: PM # only deploy to virtual machines with this tag
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+            - script: |
+
+                #touch shiv
+
+                echo """"""""""" UPDATE CONFIG """""""""""""
+                cd /opt/app/cmrs/automation/cmrsautodevconfig
+                git pull
+
+                echo """""""""""UPDATE CODE """""""""""""""
+                cd /opt/app/cmrs/automation/cmrsautocode
+                git pull
+
+- stage: PM1
+  displayName: Install Packet on PM
+  jobs:
+  - deployment: VMDeploy
+    displayName: Install Packet on PM
+    pool:
+      vmImage: ubuntu-latest
+    environment:
+      name: ContosoDeploy
+      resourceType: VirtualMachine
+      tags: PM1 # only deploy to virtual machines with this tag
+    strategy:
+      runOnce:
+       deploy:
+        steps:
+         - script: |
+
+              echo Packet Vesion = $(p_version)
+
+              echo """" Remove Deployed Packet if already Exist"""""
+
+              cd /packets/cmrslink/Cmrs_Packets/RegReport
+              rm -rf $(p_version)
+              rm -rf $(p_version).zip
+
+              echo """""" Install packet """""
+              cd /var/tmp
+              sh install-packet.sh "$(p_version).zip"
+
+- stage: IIS
+  displayName: Deploy packet on QA server
+  jobs:
+  - deployment: VMDeploy
+    displayName: Deployment on QA server
+    pool:
+      vmImage: windows-latest
+    environment:
+      name: test-QA
+      resourceType: VirtualMachine
+      tags: QA6
+    strategy:
+       runOnce:
+         deploy:
+          steps:
+          - powershell: |
+                  $scriptPath = "E:\BuildScripts\remove-sf.ps1";
+                  $argumentList = ""
+                  if($Env:AGENT_NAME -eq 'INGGNSCWIISQA6')
+                  {
+                      $argumentList = "inggnscwsfqa6.global.publicisgroupe.net"
+                  }
+
+                  Invoke-Expression "$scriptPath $argumentList"
+                  iisreset /stop
+            ignoreLASTEXITCODE: true
+            displayName: 'Stop IIS and SF services'
+
+          - script: |
+             net share "E:\SolutionUI" /delete /yes
+             net share "E:\CmrsPlatform\sharedsfconfig" /delete /yes
+             net share "SolutionUI"="E:\SolutionUI" /grant:everyone,FULL
+             net share "sharedsfconfig"="E:\CmrsPlatform\sharedsfconfig" /grant:everyone,FULL
+           
+            displayName: 'Set variables'
+
+          - powershell: |
+             try{
+   
+             taskkill /FI "IMAGENAME eq Sapient.CMRS.RegReport*" /F
+             Start-Sleep -s 10
+   
+             taskkill /FI "IMAGENAME eq Sapient.CMRS.RegReport*" /F
+             Start-Sleep -s 10
+            
+             taskkill /FI "IMAGENAME eq Sapient.CMRS.RegReport*" /F
+             Start-Sleep -s 10
+            
+             taskkill /FI "IMAGENAME eq Sapient.CMRS.RegReport*" /F
+            
+             Write-Host "Hello World3"
+            
+             remove-item -path "E:\puppetlogs\puppetrun.log"
+             Write-Host "Hello World4"
+             iisreset /start
+             puppet agent -t >E:\puppetlogs\puppetrun.log
+            
+             exit 0
+             } catch {
+             exit 1
+             }
+            
+            displayName: 'Deploy IIS and SF components'

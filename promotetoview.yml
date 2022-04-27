@@ -1,0 +1,60 @@
+parameters:
+- name: name
+  default: ''
+- name: pat
+  default: ''
+- name: version
+  default: ''
+- name: feed
+  default: ''
+- name: upstream_feed
+  default: ''
+- name: group
+  default: ''
+- name: project_id
+  default: ''
+- name: view
+  default: ''
+
+jobs:
+- job: Build_Maven
+  displayName: 'Artifact Promotion'
+  steps:
+
+  - task: PipAuthenticate@1
+    inputs:
+      artifactFeeds: ${{ parameters.project_id }}/${{ parameters.upstream_feed }}
+
+  #- script: sudo pip install --target=/usr/local/python3/lib/python3.7/site-packages --upgrade idna
+  #  displayName: 'Insatll tools'
+  
+  #- script: python -m pip install --upgrade pip requests
+
+  #- script: pip install --target=/usr/local/python3.7/site-packages --upgrade pip==20.3.4
+
+  #- script: pip install --target=/usr/local/python3.7/site-packages --upgrade urllib3
+
+  #- script: sudo python -m pip install --target=/usr/local/python3/lib/python3.7/site-packages --upgrade pip requests
+  #  displayName: 'Insatll tools'
+  
+  #- script: sudo pip install --target=/usr/local/python3/lib/python3.7/site-packages --upgrade chardet
+  #  displayName: 'Insatll tools'
+  
+  #- script: sudo python -m pip install --target=/usr/local/python3/lib/python3.7/site-packages --upgrade pip==20.3.4
+  #  displayName: 'Insatll tools'
+
+  #- script: sudo pip install --target=/usr/local/python3/lib/python3.7/site-packages --upgrade urllib3
+  #  displayName: 'Insatll tools'
+       
+
+  #- script: sudo python -m pip install --target=/usr/local/python3/lib/python3.7/site-packages --upgrade pip requests
+  #  displayName: 'Insatll tools'
+
+   
+  - checkout: templates
+
+  - task: PythonScript@0
+    inputs:
+      scriptSource: 'filePath'
+      scriptPath: '$(system.defaultworkingdirectory)/change_view.py'
+      arguments: '-p ${{ parameters.project_id }} -f ${{ parameters.feed }} -t ${{ parameters.pat }} -a ${{ parameters.name }} -g ${{ parameters.group }} -v ${{ parameters.version }} -w ${{ parameters.view }}' 

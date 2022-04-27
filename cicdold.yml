@@ -1,0 +1,110 @@
+
+parameters:
+  - name: name
+    default: ''
+  - name: vmImage
+    default: ''
+  - name: version
+    default: ''
+
+jobs:
+  - job: 'MavenBuild'
+    steps:
+      - task: DownloadSecureFile@1
+        name: artifactSettings
+        displayName: 'Download artifact settings.xml'
+        inputs:
+          secureFile: app-settings.xml
+
+      - script:  |
+          pwd
+          mkdir ~/.m2
+          ls -la
+          cp $(artifactSettings.secureFilePath) ~/.m2/settings.xml
+          pwd
+          ls -al
+          cat ~/.m2/settings.xml
+          cd ~/.m2/
+          pwd
+          ls -al
+          
+          echo "Deployment Version = $(Build.BuildNumber)"
+
+          echo "Project Feed = $(artifactFeedProject)"
+          echo "Project Feed Url = $(artifactFeedUrlProject)" 
+          
+          echo "Organisation Feed= $(artifactFeedOrg)"
+          echo "Org Feed Url = $(artifactFeedUrlOrg)"
+          
+          echo "##vso[task.setvariable variable=version]$(Build.BuildNumber)"
+          echo $version
+
+          echo "##vso[task.setvariable variable=artifactFeedProject]$(artifactFeedProject)"
+          echo $artifactFeedProject
+          echo "##vso[task.setvariable variable=artifactFeedUrlProject]$(artifactFeedUrlProject)"
+          echo $artifactFeedUrlProject
+
+          echo "##vso[task.setvariable variable=artifactFeedOrg]$(artifactFeedOrg)"
+          echo  $artifactFeedOrg
+          echo "##vso[task.setvariable variable=artifactFeedUrlOrg]$(artifactFeedUrlOrg)"
+          echo $artifactFeedUrlOrg
+      
+# Provides credentials for Azure Artifacts feeds and external Maven repositories.
+      - task: MavenAuthenticate@0
+        inputs:
+          artifactsFeeds: python
+          #mavenServiceConnections: serviceConnection1, serviceConnection2 # Optional
+
+
+      - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+        displayName: 'Replace tokens'
+        inputs:
+          targetFiles: 'pom.xml'
+          tokenPrefix: '#'
+          tokenSuffix: '#' 
+
+      - bash: |
+          echo "********* Display  POM File"
+          pwd
+          ls -lrt
+          cat pom.xml
+          
+          echo "****** Display Settings.xml File********"
+          cat ~/.m2/settings.xml
+
+        displayName: 'Display pom and Settings.xml'
+
+      
+
+      - task: Maven@3
+        inputs:
+          workingDirectory: ''
+          mavenPomFile: 'pom.xml'
+          javaHomeoption: 'JDKVersion'
+          #jdkVersionOption: '1.11'
+          jdkArchitectureOption: 'x64'
+          publishJUnitResults: false
+          goals: 'deploy' #'package' # Optional
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs: 
+          SourceFolder: '$(system.defaultworkingdirectory)'
+          Contents: '**/*.jar'
+          TargetFolder: $(Build.ArtifactStagingDirectory)
+          CleanTargetFolder: true
+          OverWrite: true
+        condition: succeeded()
+
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          artifactname: ${{ parameters.name }}-${{ parameters.version }}
+        condition: succeededOrFailed() 
+
+           
+  
+  
+
+
+

@@ -1,0 +1,45 @@
+parameters:
+- name: name
+  default: ''
+- name: vmImage
+  default: ''
+- name: version
+  default: ''
+- name: pat
+  default: ''
+- name: view
+  default: ''
+- name: feed
+  default: ''
+- name: group
+  default: ''
+- name: project_id
+  default: ''
+
+
+steps:
+
+- task: PipAuthenticate@1
+  inputs:
+       artifactFeeds: '${{ parameters.project_id }}/${{ parameters.feed }}'
+
+#- script: python -m pip install --target=/usr/local/python3.7/site-packages --upgrade certifi
+
+#- script: |
+      
+      #pip install --target=/usr/local/python3.7/site-packages idna
+      #pip install --target=/usr/local/python3.7/site-packages chardet
+      #pip install --target=/usr/local/python3.7/site-packages urllib3
+      #pip install --target=/usr/local/python3.7/site-packages certifi
+      
+    
+       
+- script: python -m pip install --upgrade pip requests
+  displayName: 'Insatll tools'
+
+- task: PythonScript@0
+  inputs:
+    scriptSource: 'filePath'
+    scriptPath: '$(system.defaultworkingdirectory)/change_viewnew.py'
+    arguments: '-p ${{ parameters.project_id }} -f ${{ parameters.feed }} -t ${{ parameters.pat }} -a ${{ parameters.name }} -g ${{ parameters.group }} -v ${{ parameters.version }} -w ${{ parameters.view }}' 
+   
