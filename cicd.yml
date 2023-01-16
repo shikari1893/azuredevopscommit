@@ -71,8 +71,8 @@ steps:
           ls -lrt
           cat pom.xml
           
-          echo "****** Display Settings.xml File********"
-          cat ~/.m2/settings.xml
+          echo "****** Display Settings.xml Files********"
+           cat ~/.m2/settings.xml
 
   displayName: 'Display pom and Settings.xml'
 
