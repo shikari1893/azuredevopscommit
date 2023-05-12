@@ -4,7 +4,7 @@ pool:
   vmImage: 'ubuntu-latest'  
 
 stages:
-- template: ./stage.yaml # Required as first property. Reference to a template for this stage.
+- template: stage.yaml # Required as first property. Reference to a template for this stage.
   parameters:
     stage_name: Dev
     dependsonStage: Build
