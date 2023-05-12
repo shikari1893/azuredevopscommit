@@ -13,6 +13,8 @@
     default: ''
   - name: DoctemplatesContainerName
     default: ''
+  - name: shiv
+    default: ''
 
  
   stages:
