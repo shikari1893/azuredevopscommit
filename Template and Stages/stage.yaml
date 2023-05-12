@@ -1,0 +1,24 @@
+ parameters:
+  - name: stage_name  # defaults for any parameters that aren't specified
+    default: ''
+  - name: dependsOnStage
+    default: ''
+  - name: BuildSourceBranch
+    default: ''    
+  - name: config_variable_group
+    default: ''
+  - name: kv_variable_group
+    default: ''
+  - name: AzureServiceConnection
+    default: ''
+  - name: DoctemplatesContainerName
+    default: ''
+
+ 
+  stages:
+    - stage: ${{ parameters.stage_name }}
+      displayName: ${{ parameters.stage_name }}
+      jobs:
+      - job: shiv
+        steps:
+        - script: echo ${{ parameters.shiv }}
