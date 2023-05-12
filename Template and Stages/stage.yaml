@@ -1,4 +1,4 @@
- parameters:
+parameters:
   - name: stage_name  # defaults for any parameters that aren't specified
     default: ''
   - name: dependsOnStage
@@ -16,8 +16,7 @@
   - name: shiv
     default: ''
 
- 
-  stages:
+ stages:
     - stage: ${{ parameters.stage_name }}
       displayName: ${{ parameters.stage_name }}
       jobs:
