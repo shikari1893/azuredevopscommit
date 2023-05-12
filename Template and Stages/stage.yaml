@@ -16,10 +16,10 @@ parameters:
   - name: shiv
     default: ''
 
- stages:
-    - stage: ${{ parameters.stage_name }}
-      displayName: ${{ parameters.stage_name }}
-      jobs:
-      - job: shiv
-        steps:
-        - script: echo ${{ parameters.shiv }}
+stages:
+- stage: ${{ parameters.stage_name }}
+  displayName: ${{ parameters.stage_name }}
+  jobs:
+  - job: shiv
+    steps:
+    - script: echo ${{ parameters.shiv }}
