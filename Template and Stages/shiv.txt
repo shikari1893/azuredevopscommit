@@ -1,0 +1,1 @@
+pass parameter value from from a template yaml to main pipeline
