@@ -3,7 +3,14 @@ trigger: none
 pool:  
   vmImage: 'ubuntu-latest'  
 
-extends:
-   template: "YamlTemplates/Stage/Entrypoint.yaml"  
-   parameters:  
-       RunChangeLogic: 'true'
+stages:
+- template: ./stage.yaml # Required as first property. Reference to a template for this stage.
+  parameters:
+    stage_name: Dev
+    dependsonStage: Build
+    shiv: shakti
+
+# extends:
+#    template: "YamlTemplates/Stage/Entrypoint.yaml"  
+#    parameters:  
+#        RunChangeLogic: 'true'
