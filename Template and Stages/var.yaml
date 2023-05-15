@@ -1,0 +1,5 @@
+# File: azure-pipelines.yml
+
+variables:
+  stage_name: 'dev'
+  shiv: 'shakti'
