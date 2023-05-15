@@ -1,6 +1,6 @@
 trigger: none 
 
-l
+
 variables:
   stage_name: 'dev'
   shiv: 'shakti'
