@@ -3,3 +3,4 @@
 variables:
   stage_name: 'dev'
   shiv: 'shakti'
+- group: ENV-DEV
