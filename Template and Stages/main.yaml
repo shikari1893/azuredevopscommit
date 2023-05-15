@@ -1,4 +1,9 @@
-trigger: none  
+trigger: none 
+
+l
+variables:
+  stage_name: 'dev'
+  shiv: 'shakti'
 
 pool:  
   vmImage: 'ubuntu-latest'  
@@ -6,9 +11,9 @@ pool:
 stages:
 - template: stage.yaml # Required as first property. Reference to a template for this stage.
   parameters:
-    stage_name: Dev
+    stage_name: ${{ variables.stage_name }}
     dependsonStage: Build
-    shiv: shakti
+    shiv: ${{ variables.shiv }}
 
 # extends:
 #    template: "YamlTemplates/Stage/Entrypoint.yaml"  
