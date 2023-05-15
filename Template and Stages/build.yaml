@@ -5,7 +5,7 @@ variables:
 
 stages:
     - stage: Build
-      displayName: Build
+      displayName: $(env)
       jobs:
       - job : linux_agent_job 
         pool:
