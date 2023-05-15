@@ -11,6 +11,8 @@ stages:
         pool:
           vmImage: 'ubuntu-latest'
         steps:
-        - script: echo stage name is $(env)
+        - script: |
+              echo my name is $(shiv) 
+
 
 
