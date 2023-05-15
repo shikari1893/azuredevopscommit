@@ -10,10 +10,10 @@ pool:
 
 stages:
 - template: stage.yaml # Required as first property. Reference to a template for this stage.
-  parameters:
-    stage_name: ${{ variables.stage_name }}
-    dependsonStage: Build
-    shiv: ${{ variables.shiv }}
+  # parameters:
+  #   stage_name: ${{ variables.stage_name }}
+  #   dependsonStage: Build
+  #   shiv: ${{ variables.shiv }}
 
 # extends:
 #    template: "YamlTemplates/Stage/Entrypoint.yaml"  
