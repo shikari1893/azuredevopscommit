@@ -7,6 +7,6 @@ stages:
         pool:
           vmImage: 'ubuntu-latest'
         steps:
-        - script: echo My favorite vegetable is ${{ variables.shiv }}
+        - script: echo My name is shiv
 
 
