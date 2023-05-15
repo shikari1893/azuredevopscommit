@@ -1,7 +1,7 @@
 trigger: none 
 
 parameters:
-- name: env
+- name: shiv
   default: ''
 
 stages:
@@ -13,7 +13,7 @@ stages:
           vmImage: 'ubuntu-latest'
         steps:
         - script: |
-              echo my name is $(shiv) 
+              echo my name is shiv
 
 
 
