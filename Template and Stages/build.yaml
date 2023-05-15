@@ -1,0 +1,12 @@
+# File: azure-pipelines.yml
+stages:
+    - stage: Build
+      displayName: Build
+      jobs:
+      - job : linux_agent_job 
+        pool:
+          vmImage: 'ubuntu-latest'
+        steps:
+        - script: echo My favorite vegetable is ${{ variables.shiv }}
+
+
