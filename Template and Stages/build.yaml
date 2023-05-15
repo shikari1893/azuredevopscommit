@@ -1,6 +1,5 @@
+trigger: none 
 
-variables:
-- template: var.yaml
 
 
 stages:
