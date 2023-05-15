@@ -13,7 +13,7 @@ stages:
       variables:
       - group: ${{parameters.variable_group}}
       jobs:
-      - job : $(env)
+      - job : echo
         pool:
           vmImage: 'ubuntu-latest'
         steps:
