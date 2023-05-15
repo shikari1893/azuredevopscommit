@@ -1,6 +1,8 @@
 trigger: none 
 
-
+parameters:
+- name: env
+  default: ''
 
 stages:
     - stage: Build
