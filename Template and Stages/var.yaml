@@ -1,6 +1,6 @@
 # File: azure-pipelines.yml
 
 variables:
+- group: ENV-DEV
   stage_name: 'dev'
   shiv: 'shakti'
-- group: ENV-DEV
