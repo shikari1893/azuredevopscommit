@@ -1,19 +1,24 @@
 
 
 parameters:
-- name: shiv
-  default: ''
+#- name: shiv
+#  default: ''
+- name: 'variable_group'    
+  type: string    
+  default: 'ENV-DEV'
 
 stages:
     - stage: Build
       displayName: $(env)
+      variables:
+      - group: ${{parameters.variable_group}}
       jobs:
       - job : $(env)
         pool:
           vmImage: 'ubuntu-latest'
         steps:
         - script: |
-              echo my name is shiv
+              echo my name is &(shiv)
 
 
 
