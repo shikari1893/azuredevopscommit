@@ -8,6 +8,11 @@ pool:
   vmImage: 'ubuntu-latest'  
 
 stages:
+
+- template: build.yaml
+  parameters:
+    shiv: ${{ variables.shiv }}
+     
 - template: stage.yaml # Required as first property. Reference to a template for this stage.
   parameters:
     stage_name: ${{ variables.stage_name }}
