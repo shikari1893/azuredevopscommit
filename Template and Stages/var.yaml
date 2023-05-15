@@ -1,12 +1,16 @@
 # File: azure-pipelines.yml
 
 variables:
-- name: stage_name
+- name: stage_dev
   value: 'dev'
 - name: shiv
   value: 'shivshakti'
 - name: dependsonStage
-  value: 'Build' 
+  value: 'Build'
+- name: stage_qa
+  valeu: 'qa'
+- name: stage_prod
+  valeu: 'prod' 
 
   #shiv: shivshakti
   #stage_name: dev
