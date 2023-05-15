@@ -10,8 +10,8 @@ pool:
 stages:
 
 - template: build.yaml
-  parameters:
-    shiv: $(env)
+  #parameters:
+  #  shiv: $(env)
      
 - template: stage.yaml # Required as first property. Reference to a template for this stage.
   parameters:
