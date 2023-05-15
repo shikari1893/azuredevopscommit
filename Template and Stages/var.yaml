@@ -3,7 +3,7 @@
 variables:
 - group: ENV-DEV
 - name: stage_name
-  valeu: 'dev'
+  value: 'dev'
 - name: shiv
-  valeu: 'shivshakti' 
+  value: 'shivshakti' 
 
