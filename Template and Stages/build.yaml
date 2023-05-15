@@ -9,7 +9,7 @@ parameters:
 
 stages:
     - stage: Build
-      displayName: $(env)
+      displayName: Build
       variables:
       - group: ${{parameters.variable_group}}
       jobs:
