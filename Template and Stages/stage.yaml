@@ -16,6 +16,9 @@ parameters:
   - name: shiv
     default: ''
 
+variables:
+- template: main.yaml
+
 stages:
 - stage: ${{ parameters.stage_name }}
   displayName: ${{ parameters.stage_name }}
