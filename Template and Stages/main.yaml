@@ -16,7 +16,7 @@ stages:
 - template: stage.yaml # Required as first property. Reference to a template for this stage.
   parameters:
     stage_name: ${{ variables.stage_name }}
-    dependsonStage: Build
+    dependsonStage: ${{ variables.stage_name }}
     shiv: ${{ variables.shiv }}
 
 # extends:
