@@ -7,7 +7,7 @@ stages:
     - stage: Build
       displayName: $(env)
       jobs:
-      - job : linux_agent_job 
+      - job : $(env)
         pool:
           vmImage: 'ubuntu-latest'
         steps:
