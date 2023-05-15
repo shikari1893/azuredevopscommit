@@ -11,7 +11,7 @@ stages:
 
 - template: build.yaml
   parameters:
-    shiv: ${{ variables.shiv }}
+    shiv: $(env)
      
 - template: stage.yaml # Required as first property. Reference to a template for this stage.
   parameters:
