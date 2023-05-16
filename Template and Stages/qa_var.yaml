@@ -2,6 +2,6 @@ variables:
 - name: stage_name
   value: 'qa'
 - name: shiv
-  value: 'shivshakti'
+  value: 'shivshaktiqa'
 - name: dependsonStage
   value: 'dev'
