@@ -1,7 +1,7 @@
 # File: azure-pipelines.yml
 
 variables:
-- name: stage_dev
+- name: stage_name
   value: 'dev'
 - name: shiv
   value: 'shivshakti'
