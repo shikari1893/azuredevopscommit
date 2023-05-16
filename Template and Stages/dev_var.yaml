@@ -4,7 +4,7 @@ variables:
 - name: stage_name
   value: 'dev'
 - name: shiv
-  value: 'shivshakti'
+  value: 'shivshaktidev'
 - name: dependsonStage
   value: 'test'
 
