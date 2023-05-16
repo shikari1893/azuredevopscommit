@@ -6,7 +6,7 @@ variables:
 - name: shiv
   value: 'shivshakti'
 - name: dependsonStage
-  value: 'QA'
+  value: 'test'
 
   #shiv: shivshakti
   #stage_name: dev
