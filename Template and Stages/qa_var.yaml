@@ -1,5 +1,5 @@
 variables:
-- name: stage_dev
+- name: stage_name
   value: 'qa'
 - name: shiv
   value: 'shivshakti'
