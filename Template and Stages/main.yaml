@@ -11,15 +11,13 @@ stages:
  
 - template: stage.yaml
   parameters:
-    stage_name: ${{ variables.stage_name }}
-    dependsonStage: ${{ variables.dependsonStage }}
-    shiv: ${{ variables.shiv }}
+    stage_name: ${{ variables.stage_dev }}
 
 - template: stage.yaml
   parameters:
-    stage_name: ${{ variables.stage_name }}
+    stage_name: ${{ variables.stage_qa }}
     dependsonStage: ${{ variables.dependsonStage }}
-    shiv: ${{ variables.shiv }}
+
 
 # extends:
 #    template: "YamlTemplates/Stage/Entrypoint.yaml"  
