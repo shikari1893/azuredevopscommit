@@ -8,9 +8,9 @@ variables:
 - name: dependsonStage
   value: 'Build'
 - name: stage_qa
-  valeu: 'qa'
+  value: 'qa'
 - name: stage_prod
-  valeu: 'prod' 
+  value: 'prod' 
 
   #shiv: shivshakti
   #stage_name: dev
