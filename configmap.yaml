@@ -5,3 +5,4 @@ metadata:
 data:
   docker-key: #{docker}#
   test-key: #{test}#
+  key: #{PAT}#
