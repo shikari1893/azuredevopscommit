@@ -6,8 +6,8 @@ pool:
 resources:
   repositories:
     - repository: shiv
-      name: shiv
-      ref: develop
+      name: test1
+      ref: test
       type: git
 
 steps:
