@@ -6,7 +6,7 @@ pool:
 resources:
   repositories:
     - repository: shiv
-      name: devops
+      name: shiv
       type: git
 
 steps:
