@@ -6,7 +6,8 @@ pool:
 resources:
   repositories:
     - repository: shiv
-      name: shiv/develop
+      name: shiv
+      ref: develop
       type: git
 
 steps:
@@ -15,7 +16,7 @@ steps:
   - script: |
          
           #git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" clone --recurse-submodules https://test2192@dev.azure.com/test2192/shiv/_git/shiv
-          git ls-remote --heads https://$(System.AccessToken):x-oauth-basic@dev.azure.com/test2192/shiv/_git/shiv  master
+          git ls-remote --heads https://$(System.AccessToken):x-oauth-basic@dev.azure.com/test2192/shiv/_git/shiv  develop
 #variables:
 #- template: var.yaml
 
