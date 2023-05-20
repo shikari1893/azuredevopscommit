@@ -1,22 +1,33 @@
-trigger: none 
+#@trigger: none 
 
 pool:  
   vmImage: 'ubuntu-latest'  
 
-variables:
-- template: var.yaml
+resources:
+  repositories:
+    - repository: shiv
+      name: devops
+      type: git
 
-stages:
-- template: build.yaml
+steps:
+  - script: |
+         
+          git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" clone --recurse-submodules https://test2192@dev.azure.com/test2192/shiv/_git/shiv
+
+#variables:
+#- template: var.yaml
+
+#stages:
+#- template: build.yaml
  
-- template: stage.yaml
-  parameters:
-    stage_name: ${{ variables.stage_dev }}
+#- template: stage.yaml
+#  parameters:
+#    stage_name: ${{ variables.stage_dev }}
 
-- template: stage.yaml
-  parameters:
-    stage_name: ${{ variables.stage_qa }}
-    dependsonStage: ${{ variables.dependsonStage }}
+#- template: stage.yaml
+#  parameters:
+#    stage_name: ${{ variables.stage_qa }}
+#    dependsonStage: ${{ variables.dependsonStage }}
 
 
 # extends:
