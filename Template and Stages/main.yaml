@@ -10,6 +10,8 @@ resources:
       type: git
 
 steps:
+  - checkout: shiv
+    submodules: true
   - script: |
          
           git -c http.extraheader="AUTHORIZATION: bearer $(System.AccessToken)" clone --recurse-submodules https://test2192@dev.azure.com/test2192/shiv/_git/shiv
